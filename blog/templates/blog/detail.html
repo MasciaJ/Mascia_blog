@@ -1,43 +1,45 @@
 {% extends "base.html" %}
 
 {% block page_title %}
-    <h2>{{ post.title }}</h2>
+    <h1 class="display-5 fw-bold mb-3">{{ post.title }}</h1>
 {% endblock page_title %}
 
 {% block page_content %}
-    <small>
-        {{ post.created_on.date }} | Categories:
+    <div class="mb-4">
+        <small class="text-muted">{{ post.created_on|date:"d/m/Y" }}</small>
+        <div class="d-flex flex-wrap gap-2 mt-2">
         {% for category in post.categories.all %}
-            <a href="{% url 'blog_category' category.name %}">
-                {{ category.name }}
-            </a>
+            <a class="badge text-bg-secondary text-decoration-none" href="{% url 'blog_category' category.name %}">{{ category.name }}</a>
         {% endfor %}
-    </small>
+        </div>
+    </div>
 
-    <p>{{ post.body | linebreaks }}</p>
+    <div class="post-content mb-5">{{ post.body|linebreaks }}</div>
 
-    <h3>Leave a comment:</h3>
+    <h2 class="h4 fw-bold mb-3">Dejá un comentario</h2>
 
-    <form method="post">
+    <form method="post" class="mb-5">
         {% csrf_token %}
-        <div>
+        <div class="mb-3">
+            <label for="id_author" class="form-label">Nombre</label>
             {{ form.author }}
         </div>
-        <div>
+        <div class="mb-3">
+            <label for="id_body" class="form-label">Comentario</label>
             {{ form.body }}
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-submit fw-bold">Enviar comentario</button>
     </form>
 
-    <h3>Comments:</h3>
+    <h2 class="h4 fw-bold mb-3">Comentarios</h2>
 
     {% for comment in comments %}
-        <p>
-            On {{ comment.created_on.date }} <b>{{ comment.author }}</b> wrote:
-        </p>
-        <p>
-            {{ comment.body | linebreaks }}
-        </p>
+        <article class="comment-card p-3 mb-3 border rounded">
+            <p class="mb-2"><strong>{{ comment.author }}</strong> <small class="text-muted">· {{ comment.created_on|date:"d/m/Y H:i" }}</small></p>
+            <div class="mb-0">{{ comment.body|linebreaks }}</div>
+        </article>
+    {% empty %}
+        <p class="text-muted">Todavía no hay comentarios. Podés ser el primero.</p>
     {% endfor %}
 
 {% endblock page_content %}
