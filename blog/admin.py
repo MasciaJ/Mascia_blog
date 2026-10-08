@@ -5,7 +5,8 @@ class CategoryAdmin(admin.ModelAdmin):
     pass
 
 class PostAdmin(admin.ModelAdmin):
-    pass
+    list_display = ("title", "created_on")
+    fields = ("title", "body", "image", "created_on", "categories")
 
 class CommentAdmin(admin.ModelAdmin):
     pass

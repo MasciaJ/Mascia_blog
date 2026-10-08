@@ -123,6 +123,9 @@
                     {% for post in posts %}
                         <article class="col-md-6 col-lg-4">
                             <div class="project-card h-100 p-3 border rounded">
+                                {% if post.image %}
+                                    <img class="post-card-image mb-3" src="{{ post.image.url }}" alt="{{ post.title }}">
+                                {% endif %}
                                 <h3 class="h5 fw-bold">
                                     <a class="post-title-link" href="{% url 'blog_detail' post.pk %}">{{ post.title }}</a>
                                 </h3>
